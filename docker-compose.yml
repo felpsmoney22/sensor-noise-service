@@ -1,19 +1,18 @@
 version: "3.9"
-
 services:
   sensor-noise:
     build: .
     image: sensor-noise-service:latest
     container_name: sensor-noise
     ports:
-      - "8091:8000"         # acessa em http://SEU_IP:8091
+      - "8091:8000"   # acessa via http://SEU_IP:8091
     environment:
       - UVICORN_HOST=0.0.0.0
       - UVICORN_PORT=8000
-healthcheck:
-  test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/docs')"]
-  interval: 10s
-  timeout: 3s
-  retries: 10
-  start_period: 10s
-
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/docs')"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
