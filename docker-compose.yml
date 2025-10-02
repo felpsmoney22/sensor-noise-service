@@ -2,5 +2,5 @@ services:
   sensor-noise:
     build: .
     ports:
-      - "8080:8000"   # acessa em http://IP:8080
+      - "8091:8000"   # acessa em http://IP:8080
     restart: unless-stopped
