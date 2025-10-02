@@ -22,9 +22,3 @@ retries: 10
 start_period: 10s
 networks:
 - shared
-
-
-networks:
-shared:
-name: shared_net # rede nomeada para conectar n8n + sensor-noise
-driver: bridge
