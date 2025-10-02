@@ -4,10 +4,11 @@ WORKDIR /app
 
 # dependências do sistema (para opencv)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-build-essential \
-libgl1 && rm -rf /var/lib/apt/lists/*
-
-
+    build-essential \
+    libgl1 \
+    curl \
+ && rm -rf /var/lib/apt/lists/*
+ 
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
