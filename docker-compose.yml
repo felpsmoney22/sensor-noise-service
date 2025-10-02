@@ -4,14 +4,27 @@ sensor-noise:
 build: .
 image: sensor-noise-service:latest
 container_name: sensor-noise
+# === VARIANTE 1 — expor por IP:porta ===
 ports:
-- "8080:8000" # expõe http://IP:8080
+- "8091:8000" # acessa via http://SEU_IP:8091
+# === VARIANTE 2 — comunicação container↔container (n8n na mesma rede) ===
+# Se quiser, remova as ports acima e mantenha apenas a rede 'shared' para chamar
+# http://sensor-noise:8000/process a partir do n8n
+restart: unless-stopped
 environment:
 - UVICORN_HOST=0.0.0.0
 - UVICORN_PORT=8000
 healthcheck:
-test: ["CMD-SHELL", "wget -qO- http://localhost:8000/docs || exit 1"]
+test: ["CMD-SHELL", "curl -sf http://localhost:8000/docs > /dev/null || exit 1"]
 interval: 10s
 timeout: 3s
 retries: 10
-restart: unless-stopped
+start_period: 10s
+networks:
+- shared
+
+
+networks:
+shared:
+name: shared_net # rede nomeada para conectar n8n + sensor-noise
+driver: bridge
